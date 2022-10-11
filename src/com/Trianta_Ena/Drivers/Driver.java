@@ -60,6 +60,10 @@ public class Driver {
         return board;
     }
 
+    public static void setBoard(Board board) {
+        Driver.board = board;
+    }
+
     public void initUnitQueue(){}
 
     public boolean getIsTeamBased() {
@@ -67,6 +71,10 @@ public class Driver {
     }
 
     public void printScoreTable(){}
+
+    public void addUnits(int count){
+
+    }
 
 
 }

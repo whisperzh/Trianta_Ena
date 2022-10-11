@@ -1,11 +1,17 @@
 package com.Trianta_Ena.Drivers;
 
+import com.Trianta_Ena.Boards.TE_Board;
 import com.Trianta_Ena.Units.TE_Player;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class TE_Driver extends Driver{
+
+    private List<TE_Player> gameOutSeat;
+
     public TE_Driver() {
     }
 
@@ -44,31 +50,55 @@ public class TE_Driver extends Driver{
         for(int i=0;i<unitsQueue.size();i++) {
             TE_Player p=(TE_Player)unitsQueue.poll();
             System.out.println(p.getName() + " won " + p.getWinTimes() + " times.");
+            unitsQueue.add(p);
         }
 
+    }
+
+    private void initBoard(){
+        setBoard(new TE_Board());
     }
 
     @Override
     public void checkOut() {
         //NEED TO BE FILLED
+        for(int i=0;i<unitsQueue.size();i++) {
+            TE_Player p=(TE_Player)unitsQueue.poll();
+            p.roundCheckout();
+            unitsQueue.add(p);
+        }
     }
 
     @Override
     public boolean judge() {
+        for(int i=0;i<unitsQueue.size();i++) {
+            TE_Player p=(TE_Player)unitsQueue.poll();
+            int val=p.getCurrHandCardValue();
+            if (val>31)
+            {
+                if(gameOutSeat==null)
+                    gameOutSeat=new ArrayList<TE_Player>();
+                gameOutSeat.add(p);
+            }
+            else
+                unitsQueue.add(p);
+        }
+        return unitsQueue.size()==1;
         //NEED TO BE FILLED
-        return super.judge();
     }
 
     @Override
     public void instantiateGame() {
         //NEED TO BE FILLED
-        super.instantiateGame();
+        initBoard();
+        initUnitQueue();
     }
 
     @Override
     public void reset() {
         //NEED TO BE FILLED
-        super.reset();
+        getBoard().reset();
+
     }
     @Override
     public void initUnitQueue(){
@@ -82,5 +112,13 @@ public class TE_Driver extends Driver{
 //        {
 //            System.out.println(t.getName()+"\t"+t.getScore()+"\t"+rounds);
 //        }
+    }
+
+    @Override
+    public void addUnits(int count) {
+        for(int i=0;i<count;i++)
+        {
+            unitsQueue.add(new TE_Player());
+        }
     }
 }
