@@ -1,9 +1,10 @@
 package com.Trianta_Ena.Items;
 
+/**
+ * Directly copied from assignment1
+ */
+
 public class Piece extends Item{
-    /*
-    * Directly copied from assignment1
-    * */
     private boolean isActivated;
 
     private char pieceType=' ';

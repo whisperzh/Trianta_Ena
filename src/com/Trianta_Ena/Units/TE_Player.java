@@ -53,6 +53,14 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     @Override
     public boolean acceptSwitch2Dealer() {
+        System.out.println("Accept to be a dealer?(y/n)");
+        String acc=getScanner().next();
+        if(acc.equalsIgnoreCase("y")||acc.equalsIgnoreCase("yes"))
+        {
+            System.out.println("Your Input: Yes");
+            return true;
+        }
+        System.out.println("Your Input: No");
         return false;
     }
 
@@ -64,6 +72,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     @Override
     public void takeAction() {
         super.takeAction();
+
     }
 
     @Override
@@ -101,5 +110,14 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     public boolean getIsDealer() {
         return isDealer;
+    }
+
+    public int requestForAceValue()//need try catch block
+    {
+        System.out.println("You got an ACE card");
+        System.out.println("This card's value can either be 11 or 1");
+        System.out.println("Please enter the value of this card(11/1)");
+        int val=getScanner().nextInt();
+        return val;
     }
 }

@@ -3,6 +3,9 @@ package com.Trianta_Ena.Units;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ *
+ */
 public class Team extends Units{
     protected Queue playerQueue;
     private char teamPieceType;

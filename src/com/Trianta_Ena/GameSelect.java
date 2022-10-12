@@ -19,6 +19,7 @@ public class GameSelect {
         System.out.println("Games");
         System.out.println("\t[1] Tic-tac-toe");
         System.out.println("\t[2] Order and Chaos");
+        System.out.println("\t[3] Trianta Ena");
 
         int GameMode=getScanner().nextInt();
         while(GameMode!=1&&GameMode!=-1&&GameMode!=2) {
