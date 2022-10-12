@@ -1,9 +1,12 @@
 package com.Trianta_Ena.Units;
 
+import com.Trianta_Ena.Utilities.Cache;
+
 import java.util.Scanner;
 
 public class Player extends Units{
     public Player(){
+        super();
         setNameFromConsole();
     }
 

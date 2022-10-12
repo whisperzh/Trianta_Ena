@@ -16,6 +16,8 @@ public class Driver {
 
     private int rounds;
 
+    protected int playerCount;
+
     protected Player curr_Player;
 
     private static Board board;
@@ -64,7 +66,7 @@ public class Driver {
         Driver.board = board;
     }
 
-    public void initUnitQueue(){}
+    public void initUnitsList(){}
 
     public boolean getIsTeamBased() {
         return isTeamBased;

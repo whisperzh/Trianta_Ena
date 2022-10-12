@@ -1,5 +1,7 @@
 package com.Trianta_Ena.Units;
 
+import com.Trianta_Ena.Utilities.Cache;
+
 import java.util.Scanner;
 
 public class Units {
@@ -7,11 +9,16 @@ public class Units {
     private boolean isWinner;
     private int winTimes;
     private Scanner scanner;
+    protected final int initId;
 
     public Units() {
+        initId= Cache.existingPlayerCount;
+        Cache.increaseExistingPlayerCount();
     }
 
     public Units(String name) {
+        initId= Cache.existingPlayerCount;
+        Cache.increaseExistingPlayerCount();
         this.name=name;
     }
 

@@ -24,6 +24,13 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         initCardLists();
     }
 
+    public TE_Player(boolean isDealer)
+    {
+        super();
+        this.isDealer=isDealer;
+        initCardLists();
+    }
+
     @Override
     public void roundCheckout() {
 

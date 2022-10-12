@@ -3,20 +3,36 @@ package com.Trianta_Ena.Drivers;
 import com.Trianta_Ena.Boards.TE_Board;
 import com.Trianta_Ena.Units.TE_Player;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class TE_Driver extends Driver{
 
     private List<TE_Player> gameOutSeat;
 
+    private TE_Player currDealer;
+
+    private PriorityQueue<TE_Player> pq_Score;
+
     public TE_Driver() {
+        System.out.println("Please enter the count of the players");
+        System.out.println("Please enter a number between 5 and 9");
+        playerCount=getScanner().nextInt();
+        System.out.println("Your input is "+playerCount);
+        initBoard();
+        initUnitsList();
     }
 
     public void rotateDealer(){
-        //NEED TO BE FILLED
+        initScorePq();
+        while(pq_Score.size()!=0)
+        {
+            TE_Player p= pq_Score.poll();
+            if(p.acceptSwitch2Dealer()){
+                p.becomeDealer(currDealer);
+                currDealer=p;
+                return;
+            }
+        }
     }
 
     @Override
@@ -24,6 +40,7 @@ public class TE_Driver extends Driver{
         while(true)
         {
             TE_Player p=(TE_Player)unitsQueue.poll();
+            curr_Player=p;
             p.takeAction();
             unitsQueue.add(p);
             if(judge())
@@ -53,6 +70,10 @@ public class TE_Driver extends Driver{
             unitsQueue.add(p);
         }
 
+    }
+
+    public TE_Player getCurrDealer(){
+        return currDealer;
     }
 
     private void initBoard(){
@@ -91,7 +112,7 @@ public class TE_Driver extends Driver{
     public void instantiateGame() {
         //NEED TO BE FILLED
         initBoard();
-        initUnitQueue();
+        initUnitsList();
     }
 
     @Override
@@ -101,8 +122,12 @@ public class TE_Driver extends Driver{
 
     }
     @Override
-    public void initUnitQueue(){
+    public void initUnitsList(){
         unitsQueue = new LinkedList<TE_Player>();
+        unitsQueue.add(new TE_Player(true));
+        pq_Score=new PriorityQueue<TE_Player>((a,b)->b.getCurrHandCardValue()-a.getCurrHandCardValue());
+        gameOutSeat=new ArrayList<TE_Player>();
+        addUnits(playerCount-1);
     }
 
     @Override
@@ -112,6 +137,18 @@ public class TE_Driver extends Driver{
 //        {
 //            System.out.println(t.getName()+"\t"+t.getScore()+"\t"+rounds);
 //        }
+    }
+
+    public void initScorePq(){
+        pq_Score.clear();
+        if(curr_Player!=null)
+            pq_Score.add((TE_Player) curr_Player);
+        for(int i=0;i<unitsQueue.size();i++) {
+            TE_Player p=(TE_Player)unitsQueue.poll();
+            pq_Score.add(p);
+            unitsQueue.add(p);
+        }
+
     }
 
     @Override
