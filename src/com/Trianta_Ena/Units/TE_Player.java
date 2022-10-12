@@ -98,4 +98,8 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         //remember >31==bust
         return val;
     }
+
+    public boolean getIsDealer() {
+        return isDealer;
+    }
 }

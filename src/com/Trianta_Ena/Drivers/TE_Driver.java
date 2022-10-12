@@ -27,6 +27,8 @@ public class TE_Driver extends Driver{
         while(pq_Score.size()!=0)
         {
             TE_Player p= pq_Score.poll();
+            if(p.getIsDealer())
+                return;
             if(p.acceptSwitch2Dealer()){
                 p.becomeDealer(currDealer);
                 currDealer=p;
@@ -41,7 +43,7 @@ public class TE_Driver extends Driver{
         {
             TE_Player p=(TE_Player)unitsQueue.poll();
             curr_Player=p;
-            p.takeAction();
+            p.takeAction();//or func in this class
             unitsQueue.add(p);
             if(judge())
             {
@@ -60,7 +62,8 @@ public class TE_Driver extends Driver{
                     System.out.println("Input: no");
                     break;
                 }
-            }
+            }else
+                rotateDealer();
         }
         System.out.println("Thank you for playing!");
 
