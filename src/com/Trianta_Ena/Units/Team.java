@@ -7,7 +7,7 @@ import java.util.Queue;
  *
  */
 public class Team extends Units{
-    protected Queue playerQueue;
+    private Queue playerQueue;
     private char teamPieceType;
 
     public Team(String name) {

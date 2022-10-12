@@ -66,13 +66,16 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     @Override
     public void becomeDealer(TE_Player curr_dealer) {
-
+        isDealer=true;
+        curr_dealer.setDealer(false);
     }
 
     @Override
     public void takeAction() {
-        super.takeAction();
-
+        if(handCardsWithAce.size()==1)
+        {
+            requestForAceValue();
+        }
     }
 
     @Override
@@ -110,6 +113,9 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     public boolean getIsDealer() {
         return isDealer;
+    }
+    public void setDealer(boolean isDealer){
+        this.isDealer=isDealer;
     }
 
     public int requestForAceValue()//need try catch block

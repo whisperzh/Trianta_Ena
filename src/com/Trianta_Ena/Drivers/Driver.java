@@ -12,13 +12,11 @@ public class Driver {
 
     private boolean isTeamBased;
 
-    protected Queue unitsQueue;
-
     private int rounds;
 
-    protected int playerCount;
+    private int playerCount;
 
-    protected Player curr_Player;
+    private Player curr_Player;
 
     private static Board board;
 
@@ -79,4 +77,15 @@ public class Driver {
     }
 
 
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
+
+    public void setCurr_Player(Player curr_Player) {
+        this.curr_Player = curr_Player;
+    }
 }

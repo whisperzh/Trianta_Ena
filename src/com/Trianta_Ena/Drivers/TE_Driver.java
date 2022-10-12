@@ -11,13 +11,15 @@ public class TE_Driver extends Driver{
 
     private TE_Player currDealer;
 
+    private Queue<TE_Player> unitsQueue;
+
     private PriorityQueue<TE_Player> pq_Score;
 
     public TE_Driver() {
         System.out.println("Please enter the count of the players");
         System.out.println("Please enter a number between 5 and 9");
-        playerCount=getScanner().nextInt();
-        System.out.println("Your input is "+playerCount);
+        setPlayerCount(getScanner().nextInt());
+        System.out.println("Your input is "+getPlayerCount());
         initBoard();
         initUnitsList();
     }
@@ -41,8 +43,8 @@ public class TE_Driver extends Driver{
     public void play() {
         while(true)
         {
-            TE_Player p=(TE_Player)unitsQueue.poll();
-            curr_Player=p;
+            TE_Player p=unitsQueue.poll();
+            setCurr_Player(p);
             p.takeAction();//or func in this class
             unitsQueue.add(p);
             if(judge())
@@ -68,7 +70,7 @@ public class TE_Driver extends Driver{
         System.out.println("Thank you for playing!");
 
         for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=(TE_Player)unitsQueue.poll();
+            TE_Player p=unitsQueue.poll();
             System.out.println(p.getName() + " won " + p.getWinTimes() + " times.");
             unitsQueue.add(p);
         }
@@ -87,7 +89,7 @@ public class TE_Driver extends Driver{
     public void checkOut() {
         //NEED TO BE FILLED
         for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=(TE_Player)unitsQueue.poll();
+            TE_Player p=unitsQueue.poll();
             p.roundCheckout();
             unitsQueue.add(p);
         }
@@ -96,7 +98,7 @@ public class TE_Driver extends Driver{
     @Override
     public boolean judge() {
         for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=(TE_Player)unitsQueue.poll();
+            TE_Player p=unitsQueue.poll();
             int val=p.getCurrHandCardValue();
             if (val>31)
             {
@@ -130,7 +132,7 @@ public class TE_Driver extends Driver{
         unitsQueue.add(new TE_Player(true));
         pq_Score=new PriorityQueue<TE_Player>((a,b)->b.getCurrHandCardValue()-a.getCurrHandCardValue());
         gameOutSeat=new ArrayList<TE_Player>();
-        addUnits(playerCount-1);
+        addUnits(getPlayerCount()-1);
     }
 
     @Override
@@ -144,10 +146,10 @@ public class TE_Driver extends Driver{
 
     public void initScorePq(){
         pq_Score.clear();
-        if(curr_Player!=null)
-            pq_Score.add((TE_Player) curr_Player);
+        if(getCurr_Player()!=null)
+            pq_Score.add((TE_Player) getCurr_Player());
         for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=(TE_Player)unitsQueue.poll();
+            TE_Player p=unitsQueue.poll();
             pq_Score.add(p);
             unitsQueue.add(p);
         }
