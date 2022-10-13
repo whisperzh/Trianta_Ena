@@ -8,11 +8,15 @@ import java.util.List;
 
 public class TE_Player extends Player implements TE_Player_Behavior {
 
-    private boolean isDealer;
+    private boolean isDealer;//
 
     private List<TE_Card> handCardsWithoutAce;
 
     private List<TE_Card> handCardsWithAce;
+
+    private int cash_held;
+
+    private boolean isActiveInRound;
 
     public TE_Player(String name) {
         super(name);
@@ -35,19 +39,24 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public void roundCheckout() {
 
     }
+    //check whether a player is bust
+    public void bustCheckOut(){
+
+    }
 
     @Override
     public void hit() {
 
     }
 
-    @Override
     public void stand() {
 
     }
 
-    @Override
-    public void bet(int amount) {
+    /**
+     *
+     */
+    public void bet() {
 
     }
 
@@ -125,5 +134,22 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         System.out.println("Please enter the value of this card(11/1)");
         int val=getScanner().nextInt();
         return val;
+    }
+
+    public int getCash_held() {
+        return cash_held;
+    }
+
+    public void setCash_held(int cash_held) {
+        this.cash_held = cash_held;
+    }
+
+
+    public boolean isActiveInRound() {
+        return isActiveInRound;
+    }
+
+    public void setActiveInRound(boolean activeInRound) {
+        isActiveInRound = activeInRound;
     }
 }
