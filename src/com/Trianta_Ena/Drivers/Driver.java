@@ -67,7 +67,7 @@ public class Driver {
         Driver.board = board;
     }
 
-    public void initUnitsList(){}
+    public void initGame(){}
 
     public boolean getIsTeamBased() {
         return isTeamBased;

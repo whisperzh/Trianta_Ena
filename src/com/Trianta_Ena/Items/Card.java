@@ -1,6 +1,11 @@
 package com.Trianta_Ena.Items;
 
 public class Card extends Item{
+
+    public Card() {
+        this.faceDown = false;
+    }
+
     private boolean faceDown;
 
     public void reveal(){}

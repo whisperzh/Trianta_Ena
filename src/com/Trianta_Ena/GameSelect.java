@@ -22,7 +22,7 @@ public class GameSelect {
         System.out.println("\t[3] Trianta Ena");
 
         int GameMode=getScanner().nextInt();
-        while(GameMode!=1&&GameMode!=-1&&GameMode!=2) {
+        while(GameMode!=1&&GameMode!=-1&&GameMode!=2&&GameMode!=3) {
             System.out.println("Your Input is Invalid, please input again.");
             GameMode = getScanner().nextInt();
 
@@ -37,6 +37,7 @@ public class GameSelect {
         }else if(GameMode==3)
         {
             gameDriver=new TE_Driver();
+            gameDriver.play();
         }
     }
     public Scanner getScanner(){

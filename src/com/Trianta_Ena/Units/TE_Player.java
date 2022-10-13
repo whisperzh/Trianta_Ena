@@ -1,5 +1,6 @@
 package com.Trianta_Ena.Units;
 
+import com.Trianta_Ena.Enums.TE_CardEnum;
 import com.Trianta_Ena.Interfaces.Behaviors.TE_Player_Behavior;
 import com.Trianta_Ena.Items.TE_Card;
 
@@ -26,13 +27,18 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     {
         super();
         initCardLists();
+        setActiveInRound(true);
+
     }
 
     public TE_Player(boolean isDealer)
     {
         super();
         this.isDealer=isDealer;
+        if(isDealer)
+            System.out.println("you are the dealer!");
         initCardLists();
+        setActiveInRound(true);
     }
 
     @Override
@@ -46,18 +52,16 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     @Override
     public void hit() {//hit or stand
-
-    }
-
-    public void stand() {
-
+        System.out.println("hit or stand");
+        bustCheckOut();
     }
 
     /**
      *
      */
     public void bet() {
-//bet or fold
+        //bet or fold
+        System.out.println("bet or fold");
     }
 
     @Override
@@ -148,6 +152,16 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     public boolean isActiveInRound() {
         return isActiveInRound;
+    }
+
+    public void receiveHandCard(TE_Card card){
+        if(card.getCardType().equals(TE_CardEnum.ACE))
+        {
+            handCardsWithAce.add(card);
+        }else
+        {
+            handCardsWithoutAce.add(card);
+        }
     }
 
     public void setActiveInRound(boolean activeInRound) {

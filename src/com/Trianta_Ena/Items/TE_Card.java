@@ -8,6 +8,7 @@ public class TE_Card extends Card{
     private int val;
 
     public TE_Card(TE_CardEnum t){
+        super();
         cardType=t;
     }
 
