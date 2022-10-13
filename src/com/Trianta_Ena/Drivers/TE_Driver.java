@@ -52,14 +52,7 @@ public class TE_Driver extends Driver{
             for(int i=0;i<getUnitsQueue().size();i++){
                 TE_Player p=(TE_Player)getUnitsQueue().get(i);
                 setCurr_Player(p);
-                //do something
                 board.deal2Player(p,p.getIsDealer());
-                setCurr_Player(null);
-            }//assign cards
-
-            for(int i=0;i<getUnitsQueue().size();i++){
-                TE_Player p=(TE_Player)getUnitsQueue().get(i);
-                setCurr_Player(p);
                 p.setActiveInRound(true);
                 p.bet();//do bet
                 if(p.isActiveInRound()&&!p.getIsDealer())
@@ -77,16 +70,21 @@ public class TE_Driver extends Driver{
                 for(int i=0;i<getUnitsQueue().size();i++){
                     TE_Player p=(TE_Player)getUnitsQueue().get(i);
                     setCurr_Player(p);
-                    if(p.isActiveInRound())
+                    if(p.isActiveInRound()) {
                         p.hit();
+                        if(p.isActiveInRound())
+                            board.deal2Player(p,false);
+                    }
                     setCurr_Player(null);
                 }
-                break;//need to be delete
             }
 
+            //dealer's turn
+            getCurrDealer().revealAllCards();
+            getCurrDealer().hit();//dealer does chained hit
+            checkOut();
             if(judge())
             {
-                checkOut();
                 printScoreTable();
                 //user input
                 System.out.println("Do you want to play again?(y/n)");

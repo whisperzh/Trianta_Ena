@@ -164,6 +164,17 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         }
     }
 
+    public void revealAllCards(){
+        for(int i=0;i<handCardsWithoutAce.size();i++)
+        {
+            handCardsWithoutAce.get(i).reveal();
+        }
+        for(int i=0;i<handCardsWithAce.size();i++)
+        {
+            handCardsWithAce.get(i).reveal();
+        }
+    }
+
     public void setActiveInRound(boolean activeInRound) {
         isActiveInRound = activeInRound;
     }
