@@ -11,8 +11,6 @@ public class TE_Driver extends Driver{
 
     private TE_Player currDealer;
 
-    private Queue<TE_Player> unitsQueue;
-
     private PriorityQueue<TE_Player> pq_Score;
 
     public TE_Driver() {
@@ -43,10 +41,24 @@ public class TE_Driver extends Driver{
     public void play() {
         while(true)
         {
-            TE_Player p=unitsQueue.poll();
-            setCurr_Player(p);
-            p.takeAction();//or func in this class
-            unitsQueue.add(p);
+            //bet or fold
+            for(int i=0;i<getUnitsQueue().size();i++){
+                TE_Player p=(TE_Player)getUnitsQueue().get(i);
+                setCurr_Player(p);
+                p.bet();//do bet
+                setCurr_Player(null);
+            }
+            //hit or stand
+            while(getActivePlayerCount()!=0){
+                for(int i=0;i<getUnitsQueue().size();i++){
+                    TE_Player p=(TE_Player)getUnitsQueue().get(i);
+                    setCurr_Player(p);
+                    if(p.isActiveInRound())
+                        p.hit();
+                    setCurr_Player(null);
+                }
+            }
+
             if(judge())
             {
                 checkOut();
@@ -69,10 +81,9 @@ public class TE_Driver extends Driver{
         }
         System.out.println("Thank you for playing!");
 
-        for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=unitsQueue.poll();
+        for(int i=0;i<getUnitsQueue().size();i++) {
+            TE_Player p=(TE_Player)getUnitsQueue().get(i);
             System.out.println(p.getName() + " won " + p.getWinTimes() + " times.");
-            unitsQueue.add(p);
         }
 
     }
@@ -88,28 +99,28 @@ public class TE_Driver extends Driver{
     @Override
     public void checkOut() {
         //NEED TO BE FILLED
-        for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=unitsQueue.poll();
+        for(int i=0;i<getUnitsQueue().size();i++) {
+            TE_Player p=(TE_Player)getUnitsQueue().get(i);
             p.roundCheckout();
-            unitsQueue.add(p);
         }
     }
 
     @Override
     public boolean judge() {
-        for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=unitsQueue.poll();
+        for(int i=0;i<getUnitsQueue().size();i++) {
+            TE_Player p=(TE_Player)getUnitsQueue().get(i);
             int val=p.getCurrHandCardValue();
             if (val>31)
             {
                 if(gameOutSeat==null)
                     gameOutSeat=new ArrayList<TE_Player>();
                 gameOutSeat.add(p);
+            }else
+            {
+                //do win
             }
-            else
-                unitsQueue.add(p);
         }
-        return unitsQueue.size()==1;
+        return getUnitsQueue().size()==1;
         //NEED TO BE FILLED
     }
 
@@ -128,11 +139,22 @@ public class TE_Driver extends Driver{
     }
     @Override
     public void initUnitsList(){
-        unitsQueue = new LinkedList<TE_Player>();
-        unitsQueue.add(new TE_Player(true));
+        setUnitsQueue(new ArrayList<TE_Player>());
+        getUnitsQueue().add(new TE_Player(true));
         pq_Score=new PriorityQueue<TE_Player>((a,b)->b.getCurrHandCardValue()-a.getCurrHandCardValue());
         gameOutSeat=new ArrayList<TE_Player>();
         addUnits(getPlayerCount()-1);
+    }
+
+    public int getActivePlayerCount(){
+        int count=0;
+        for(int i=0;i< getUnitsQueue().size();i++)
+        {
+            TE_Player p=(TE_Player) getUnitsQueue().get(i);
+            if(p.isActiveInRound())
+                count++;
+        }
+        return count;
     }
 
     @Override
@@ -148,10 +170,9 @@ public class TE_Driver extends Driver{
         pq_Score.clear();
         if(getCurr_Player()!=null)
             pq_Score.add((TE_Player) getCurr_Player());
-        for(int i=0;i<unitsQueue.size();i++) {
-            TE_Player p=unitsQueue.poll();
+        for(int i=0;i<getUnitsQueue().size();i++) {
+            TE_Player p=(TE_Player) getUnitsQueue().get(i);
             pq_Score.add(p);
-            unitsQueue.add(p);
         }
 
     }
@@ -160,7 +181,7 @@ public class TE_Driver extends Driver{
     public void addUnits(int count) {
         for(int i=0;i<count;i++)
         {
-            unitsQueue.add(new TE_Player());
+            getUnitsQueue().add(new TE_Player());
         }
     }
 }

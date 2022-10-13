@@ -4,6 +4,7 @@ import com.Trianta_Ena.Boards.Board;
 import com.Trianta_Ena.Units.Player;
 import com.Trianta_Ena.Units.Units;
 
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -11,6 +12,8 @@ public class Driver {
     private Scanner scanner;
 
     private boolean isTeamBased;
+
+    private List unitsQueue;
 
     private int rounds;
 
@@ -87,5 +90,13 @@ public class Driver {
 
     public void setCurr_Player(Player curr_Player) {
         this.curr_Player = curr_Player;
+    }
+
+    public List getUnitsQueue() {
+        return unitsQueue;
+    }
+
+    public void setUnitsQueue(List unitsQueue) {
+        this.unitsQueue = unitsQueue;
     }
 }

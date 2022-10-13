@@ -45,7 +45,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     }
 
     @Override
-    public void hit() {
+    public void hit() {//hit or stand
 
     }
 
@@ -57,7 +57,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      *
      */
     public void bet() {
-
+//bet or fold
     }
 
     @Override
@@ -123,6 +123,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public boolean getIsDealer() {
         return isDealer;
     }
+
     public void setDealer(boolean isDealer){
         this.isDealer=isDealer;
     }
