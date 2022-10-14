@@ -47,21 +47,32 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     }
     //check whether a player is bust
-    public void bustCheckOut(){
-
+    public void bustCheckOut(){ // Returns TRUE if the player is bust. Otherwise returns FALSE
+        int handCardValue = getCurrHandCardValue();
+        if(handCardValue > 31){
+            System.out.println("\nYou have gone bust!\n");
+            setActiveInRound(false);
+        }
     }
 
     @Override
-    public void hit() {//hit or stand
-        System.out.println("hit or stand");
+    public boolean hit() {//hit or stand
+        while(true) {
+            System.out.println("hit or stand");
+            System.out.println("Would you like to [h]it or [s]tand? \nEnter your choice 'h' or 's':");
+            String hitOrStand = getScanner().next();
 
-        // if(){
-
-        // }else {
-            
-        // }
-
-        bustCheckOut();
+            if(hitOrStand.equals("h")) {
+                return true;
+            }else if(hitOrStand.equals("s")) {
+                setActiveInRound(false); // The current player is inactive for the rest of the round
+                return false; 
+            }
+            else {
+                System.out.println("Please enter a valid option:");
+                System.out.println("Available options are 'h' for bet and 's' for fold.\n");
+            }
+        }
     }
 
     /**

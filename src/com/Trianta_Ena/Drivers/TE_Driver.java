@@ -68,9 +68,11 @@ public class TE_Driver extends Driver{
                     TE_Player p=(TE_Player)getUnitsQueue().get(i);
                     setCurr_Player(p);
                     if(p.isActiveInRound()) {
-                        p.hit();
-                        if(p.isActiveInRound())
-                            board.deal2Player(p,false);
+                        // if the player chooses to hit, then board will deal a card and check for a bust
+                        if(p.hit()) {
+                            board.deal2Player(p,false); // deal a card
+                            p.bustCheckOut(); // check for bust
+                        } 
                     }
                     setCurr_Player(null);
                 }
