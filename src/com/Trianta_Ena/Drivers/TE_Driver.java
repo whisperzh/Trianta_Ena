@@ -212,9 +212,9 @@ public class TE_Driver extends Driver{
         {
             TE_Player p=(TE_Player)getUnitsQueue().get(i);
             if(p.getIsDealer())
-                p.setCash_held(3*normalPlayerStartCash);
+                p.setCashHeld(3*normalPlayerStartCash);
             else
-                p.setCash_held(normalPlayerStartCash);
+                p.setCashHeld(normalPlayerStartCash);
         }
     }
 

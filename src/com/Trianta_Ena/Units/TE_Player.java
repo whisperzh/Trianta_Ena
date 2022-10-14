@@ -6,6 +6,7 @@ import com.Trianta_Ena.Items.TE_Card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class TE_Player extends Player implements TE_Player_Behavior {
 
@@ -15,7 +16,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     private List<TE_Card> handCardsWithAce;
 
-    private int cash_held;
+    private int cashHeld;
 
     private boolean isActiveInRound;
 
@@ -53,6 +54,13 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     @Override
     public void hit() {//hit or stand
         System.out.println("hit or stand");
+
+        // if(){
+
+        // }else {
+            
+        // }
+
         bustCheckOut();
     }
 
@@ -61,7 +69,36 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      */
     public void bet() {
         //bet or fold
-        System.out.println("bet or fold");
+        while(true) {
+            System.out.println("bet or fold");
+            System.out.println("Would you like to [b]et or [f]old? \nEnter your choice 'b' or 'f':");
+            String betOrFold = getScanner().next();
+
+
+            if(betOrFold.equals("b")) {
+                // System.out.println("Your Input: "+betOrFold);
+                System.out.println("Please enter the bet amount: ");
+
+                try {
+                    int betAmount = getScanner().nextInt();
+                    setCashHeld(cashHeld-betAmount);
+                    System.out.println("Your remaining cash: " + Integer.toString(cashHeld));
+                    break;
+                }
+                catch(Exception e) {
+                    System.out.println("Enter an INTEGER amount (Not a fraction amount)");
+                }
+            }
+            else if(betOrFold.equals("f")) {
+                // System.out.println("Your Input: "+betOrFold);
+                setActiveInRound(false); // The current player is inactive for the rest of the round
+                break;
+            }
+            else {
+                System.out.println("Please enter a valid option:");
+                System.out.println("Available options are 'b' for bet and 'f' for fold.\n");
+            }
+        }
     }
 
     @Override
@@ -115,6 +152,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
             return val;
         }else if(handCardsWithAce.size()==1){
             //ask player
+
         }
         else {
             val+=(handCardsWithAce.size()-1)*11+1;
@@ -141,12 +179,12 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         return val;
     }
 
-    public int getCash_held() {
-        return cash_held;
+    public int getCashHeld() {
+        return cashHeld;
     }
 
-    public void setCash_held(int cash_held) {
-        this.cash_held = cash_held;
+    public void setCashHeld(int cashHeld) {
+        this.cashHeld = cashHeld;
     }
 
 
