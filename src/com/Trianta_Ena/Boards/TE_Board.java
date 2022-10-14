@@ -29,7 +29,7 @@ public class TE_Board extends Board {
 
     public void deal2Player(TE_Player player,boolean faceDown) {
         //fetch a random card from the cards and give it to the player
-        int index=getRandom().nextInt(104);
+        int index=getRandom().nextInt(cards.size());
         TE_Card card=cards.get(index);
         card.setFaceDown(faceDown);
         player.receiveHandCard(card);

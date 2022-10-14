@@ -1,6 +1,5 @@
 package com.Trianta_Ena.Drivers;
 
-import com.Trianta_Ena.Boards.Board;
 import com.Trianta_Ena.Boards.TE_Board;
 import com.Trianta_Ena.Units.TE_Player;
 
@@ -25,6 +24,7 @@ public class TE_Driver extends Driver{
         System.out.println("Your input is "+getPlayerCount());
         initBoard();
         initGame();
+
     }
 
     public void rotateDealer(){
@@ -44,7 +44,7 @@ public class TE_Driver extends Driver{
 
     @Override
     public void play() {
-        initPlayersCach();
+        initPlayersCash();
         while(true)//rounds
         {
             //bet or fold
@@ -52,18 +52,16 @@ public class TE_Driver extends Driver{
             for(int i=0;i<getUnitsQueue().size();i++){
                 TE_Player p=(TE_Player)getUnitsQueue().get(i);
                 setCurr_Player(p);
-                board.deal2Player(p,p.getIsDealer());
+                board.deal2Player(p,!p.getIsDealer());
                 p.setActiveInRound(true);
                 p.bet();//do bet
                 if(p.isActiveInRound()&&!p.getIsDealer())
                 {
-                    board.deal2Player(p,false);
-                    board.deal2Player(p,false);
+                    board.deal2Player(p,true);
+                    board.deal2Player(p,true);
                 }
                 setCurr_Player(null);
             }
-
-
 
             //hit or stand
             while(getActivePlayerCount()!=0){
@@ -83,7 +81,7 @@ public class TE_Driver extends Driver{
             getCurrDealer().revealAllCards();
             getCurrDealer().hit();//dealer does chained hit
             checkOut();
-            if(judge())
+            if(judge())//whether the game is over
             {
                 printScoreTable();
                 //user input
@@ -210,7 +208,7 @@ public class TE_Driver extends Driver{
         }
     }
 
-    public void initPlayersCach(){
+    public void initPlayersCash(){
         for(int i=0;i<getUnitsQueue().size();i++)
         {
             TE_Player p=(TE_Player)getUnitsQueue().get(i);
