@@ -2,10 +2,8 @@ package com.Trianta_Ena.Drivers;
 
 import com.Trianta_Ena.Boards.Board;
 import com.Trianta_Ena.Units.Player;
-import com.Trianta_Ena.Units.Units;
 
 import java.util.List;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Driver {
@@ -13,7 +11,7 @@ public class Driver {
 
     private boolean isTeamBased;
 
-    private List unitsQueue;
+    private List unitsQueue; // raw type
 
     private int rounds;
 
