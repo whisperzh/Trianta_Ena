@@ -43,6 +43,7 @@ public class TE_Driver extends Driver{
         }
     }
 
+
     @Override
     public void play() {
         increaseRounds();
@@ -163,13 +164,6 @@ public class TE_Driver extends Driver{
         }
         return getUnitsQueue().size()==1;
         //NEED TO BE FILLED
-    }
-
-    @Override
-    public void instantiateGame() {
-        //NEED TO BE FILLED
-        initBoard();
-        initGame();
     }
 
     @Override

@@ -57,7 +57,9 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         }
     }
 
-    //check whether a player is bust
+    /**
+     * check whether a player is bust
+     */
     public void bustCheckOut(){ // Returns TRUE if the player is bust. Otherwise returns FALSE
         int handCardValue = getCurrHandCardValue();
         if(handCardValue > 31){
@@ -66,6 +68,10 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         }
     }
 
+    /**
+     * whether the player hits or stands
+     * @return
+     */
     @Override
     public boolean hit() {//hit or stand
         while(true) {
@@ -87,7 +93,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     }
 
     /**
-     *
+     *whether the player bets or folds
      */
     public int bet() {
         //bet or fold
@@ -124,6 +130,10 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         return 0;
     }
 
+    /**
+     * whether the player accepts to become a dealer
+     * @return
+     */
     @Override
     public boolean acceptSwitch2Dealer() {
         System.out.println("Accept to be a dealer?(y/n)");
@@ -143,6 +153,9 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         curr_dealer.setDealer(false);
     }
 
+    /**
+     * suppose to be called every round
+     */
     @Override
     public void takeAction() {
         if(handCardsWithAce.size()==1)
@@ -221,6 +234,10 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         return isActiveInRound;
     }
 
+    /**
+     * receive a card from board
+     * @param card
+     */
     public void receiveHandCard(TE_Card card){
         if(card.getCardType().equals(TE_CardEnum.ACE))
         {
@@ -230,6 +247,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
             handCardsWithoutAce.add(card);
         }
     }
+
 
     public void revealAllCards(){
         for(int i=0;i<handCardsWithoutAce.size();i++)

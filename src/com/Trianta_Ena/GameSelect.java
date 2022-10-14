@@ -14,6 +14,9 @@ public class GameSelect {
         System.out.println("Hi there, Welcome to boardgame");
     }
 
+    /**
+     * choose a game
+     */
     public void gameChoose(){
         System.out.println("Please choose your game.");
         System.out.println("Games");

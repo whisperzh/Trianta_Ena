@@ -25,23 +25,37 @@ public class Driver {
 
     }
 
+    /**
+     * Store the main logic of the Game
+     */
     public void play(){}
 
-    //whether the game ends
+    /**
+     * whether game is over
+     * @return
+     */
     public boolean judge(){
         return false;
     }
 
-    public void instantiateGame(){}
-
+    /**
+     * reset game
+     */
     public void reset(){}
 
+    /**
+     * needed to be called when you need input
+     * @return
+     */
     public Scanner getScanner(){
         if(scanner==null)
             scanner=new Scanner(System.in);
         return scanner;
     }
 
+    /**
+     * do the checkout, usually would be called after the round ends or the game ends
+     */
     public void checkOut() {
     }
 
@@ -65,18 +79,25 @@ public class Driver {
         Driver.board = board;
     }
 
+    /**
+     * initiate game
+     */
     public void initGame(){}
 
     public boolean getIsTeamBased() {
         return isTeamBased;
     }
 
+    /**
+     * print the total rounds and players' scores
+     */
     public void printScoreTable(){}
 
     public void addUnits(int count){
 
     }
 
+    public void instantiateGame(){}
 
     public int getPlayerCount() {
         return playerCount;
