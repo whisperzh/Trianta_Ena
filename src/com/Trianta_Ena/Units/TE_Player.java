@@ -7,6 +7,7 @@ import com.Trianta_Ena.Items.TE_Card;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class TE_Player extends Player implements TE_Player_Behavior {
 
@@ -19,6 +20,8 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     private int cashHeld;
 
     private boolean isActiveInRound;
+
+    private boolean roundWin=false;
 
     public TE_Player(String name) {
         super(name);
@@ -47,6 +50,13 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         //because the money is prepaid to the game
 
     }
+    public void roundCheckout(int threshold){
+        if(getCurrHandCardValue()>threshold)
+        {
+            setRoundWin(true);
+        }
+    }
+
     //check whether a player is bust
     public void bustCheckOut(){ // Returns TRUE if the player is bust. Otherwise returns FALSE
         int handCardValue = getCurrHandCardValue();
@@ -143,6 +153,8 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     @Override
     public void reset() {
+        setRoundWin(false);
+        resetHandCard();
     }
 
     public void initCardLists(){
@@ -232,5 +244,47 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     public void setActiveInRound(boolean activeInRound) {
         isActiveInRound = activeInRound;
+    }
+
+    public boolean isRoundWin() {
+        return roundWin;
+    }
+
+    public void setRoundWin(boolean roundWin) {
+        setWinTimes(getWinTimes()+1);
+        this.roundWin = roundWin;
+    }
+
+    /**
+     * clear handcard LISTS
+     */
+    public void resetHandCard(){
+        handCardsWithAce.clear();
+        handCardsWithoutAce.clear();
+    }
+
+    /**
+     * You cannot add zero or negative amount
+     * @param amount
+     */
+    public void addCash(int amount){
+        if(amount<=0)
+        {
+            return;
+        }
+        setCashHeld(getCashHeld()+amount);
+    }
+
+    /**
+     * if this player cannot pay the required amount this method return false
+     * @param amount
+     * @return
+     */
+    public boolean reduceCash(int amount)
+    {
+        setCashHeld(getCashHeld()-amount);
+        if(getCashHeld()<amount)
+            return false;
+        return true;
     }
 }

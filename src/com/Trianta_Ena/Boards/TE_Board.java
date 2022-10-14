@@ -4,7 +4,6 @@ import com.Trianta_Ena.Enums.TE_CardEnum;
 import com.Trianta_Ena.Items.TE_Card;
 import com.Trianta_Ena.Units.TE_Player;
 
-import java.security.cert.TrustAnchor;
 import java.util.*;
 
 public class TE_Board extends Board {
@@ -12,14 +11,13 @@ public class TE_Board extends Board {
 
     private Random random;
 
-    public TE_Board(int singleEnumCount) {
-        cards=new ArrayList<TE_Card>();
-        for (var e : TE_CardEnum.values()) {
-            for (int i = 0; i < singleEnumCount; i++) {
-                cards.add(new TE_Card(e));
-            }
+    private int singleEnumCount=4;
 
-        }
+    public TE_Board(int singleEnumCount) {
+        this.singleEnumCount=singleEnumCount;
+        if(cards==null)
+            cards=new ArrayList<TE_Card>();
+        initCardsPile();
         reshuffle();
     }
 
@@ -37,18 +35,25 @@ public class TE_Board extends Board {
     }
 
     @Override
-    public boolean isValidMove(int input) {
-        return true;
-    }
-
-    @Override
     public void reset() {
-        super.reset();
+        //super.reset();
+        initCardsPile();
+        reshuffle();
     }
 
     public Random getRandom(){
         if(random==null)
             random=new Random();
         return random;
+    }
+
+    public void initCardsPile(){
+        cards.clear();
+        for (var e : TE_CardEnum.values()) {
+            for (int i = 0; i < singleEnumCount; i++) {
+                cards.add(new TE_Card(e));
+            }
+
+        }
     }
 }

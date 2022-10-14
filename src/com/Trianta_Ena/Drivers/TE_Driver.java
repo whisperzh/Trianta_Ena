@@ -45,6 +45,7 @@ public class TE_Driver extends Driver{
 
     @Override
     public void play() {
+        increaseRounds();
         initPlayersCash();
         while(true)//rounds
         {
@@ -131,9 +132,17 @@ public class TE_Driver extends Driver{
     @Override
     public void checkOut() {
         //NEED TO BE FILLED
+        int winnerCardValThreshold=getCurrDealer().getCurrHandCardValue();
+        int roundNormalPlayerWinnerCount=0;
         for(int i=0;i<getUnitsQueue().size();i++) {
-            TE_Player p=(TE_Player)getUnitsQueue().get(i);
-            p.roundCheckout();
+            TE_Player p = (TE_Player) getUnitsQueue().get(i);
+            if (!p.getIsDealer()) {
+                p.roundCheckout(winnerCardValThreshold);
+                if(p.isRoundWin())
+                {
+                    roundNormalPlayerWinnerCount++;
+                }
+            }
         }
     }
 
