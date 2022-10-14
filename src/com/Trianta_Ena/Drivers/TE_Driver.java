@@ -46,10 +46,10 @@ public class TE_Driver extends Driver{
 
     @Override
     public void play() {
-        increaseRounds();
         initPlayersCash();
         while(true)//rounds
         {
+            increaseRounds();
             //bet or fold
             TE_Board board=(TE_Board)getBoard();
             for(int i=0;i<getUnitsQueue().size();i++){
