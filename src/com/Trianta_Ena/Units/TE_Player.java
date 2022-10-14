@@ -6,22 +6,18 @@ import com.Trianta_Ena.Items.TE_Card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class TE_Player extends Player implements TE_Player_Behavior {
 
     private boolean isDealer;//
-
-    private List<TE_Card> handCardsWithoutAce;
-
-    private List<TE_Card> handCardsWithAce;
 
     private int cashHeld;
 
     private boolean isActiveInRound;
 
     private boolean roundWin=false;
+
+    private Hand hand;
 
     public TE_Player(String name) {
         super(name);
@@ -30,9 +26,8 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public TE_Player()
     {
         super();
-        initCardLists();
         setActiveInRound(true);
-
+        hand=new Hand();
     }
 
     public TE_Player(boolean isDealer)
@@ -41,7 +36,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         this.isDealer=isDealer;
         if(isDealer)
             System.out.println("you are the dealer!");
-        initCardLists();
+        hand=new Hand();
         setActiveInRound(true);
     }
 
@@ -51,7 +46,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     }
     public void roundCheckout(int threshold){
-        if(getCurrHandCardValue()>threshold)
+        if(hand.getCardVal()>threshold)
         {
             setRoundWin(true);
         }
@@ -61,7 +56,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      * check whether a player is bust
      */
     public void bustCheckOut(){ // Returns TRUE if the player is bust. Otherwise returns FALSE
-        int handCardValue = getCurrHandCardValue();
+        int handCardValue = hand.getCardVal();
         if(handCardValue > 31){
             System.out.println("\nYou have gone bust!\n");
             setActiveInRound(false);
@@ -70,7 +65,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     /**
      * whether the player hits or stands
-     * @return
+     * @return the player's choice
      */
     @Override
     public boolean hit() {//hit or stand
@@ -132,7 +127,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     /**
      * whether the player accepts to become a dealer
-     * @return
+     * @return the player's choice
      */
     @Override
     public boolean acceptSwitch2Dealer() {
@@ -158,47 +153,18 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      */
     @Override
     public void takeAction() {
-        if(handCardsWithAce.size()==1)
-        {
-            requestForAceValue();
-        }
+//        if(handCardsWithAce.size()==1)
+//        {
+//            requestForAceValue();
+//        }
     }
 
     @Override
     public void reset() {
         setRoundWin(false);
-        resetHandCard();
+        hand.resetHandCard();
     }
 
-    public void initCardLists(){
-        handCardsWithAce=new ArrayList<TE_Card>();
-        handCardsWithoutAce=new ArrayList<TE_Card>();
-    }
-
-    public int getCurrHandCardCount(){
-        return handCardsWithoutAce.size()+handCardsWithAce.size();
-    }
-
-    public int getCurrHandCardValue(){
-        int val=0;
-        for(int i=0;i<handCardsWithoutAce.size();i++)
-        {
-            val+= handCardsWithoutAce.get(i).getVal();
-        }
-        if(handCardsWithAce.size()==0)
-        {
-            return val;
-        }else if(handCardsWithAce.size()==1){
-            //ask player
-
-        }
-        else {
-            val+=(handCardsWithAce.size()-1)*11+1;
-        }
-
-        //remember >31==bust
-        return val;
-    }
 
     public boolean getIsDealer() {
         return isDealer;
@@ -211,13 +177,13 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public int requestForAceValue()//need try catch block
     {
         int val=11;
-        if(handCardsWithAce.size()==1)
+        if(hand.getHandCardsWithAce().size()==1)
         {
             System.out.println("You got an ACE card");
             System.out.println("This card's value can either be 11 or 1");
             System.out.println("Please enter the value of this card(11/1)");
             val=getScanner().nextInt();
-            handCardsWithAce.get(0).setVal(val);
+            hand.getHandCardsWithAce().get(0).setVal(val);
         }
         return val;
     }
@@ -234,31 +200,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         return isActiveInRound;
     }
 
-    /**
-     * receive a card from board
-     * @param card
-     */
-    public void receiveHandCard(TE_Card card){
-        if(card.getCardType().equals(TE_CardEnum.ACE))
-        {
-            handCardsWithAce.add(card);
-        }else
-        {
-            handCardsWithoutAce.add(card);
-        }
-    }
 
-
-    public void revealAllCards(){
-        for(int i=0;i<handCardsWithoutAce.size();i++)
-        {
-            handCardsWithoutAce.get(i).reveal();
-        }
-        for(int i=0;i<handCardsWithAce.size();i++)
-        {
-            handCardsWithAce.get(i).reveal();
-        }
-    }
 
     public void setActiveInRound(boolean activeInRound) {
         isActiveInRound = activeInRound;
@@ -273,17 +215,11 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         this.roundWin = roundWin;
     }
 
-    /**
-     * clear handcard LISTS
-     */
-    public void resetHandCard(){
-        handCardsWithAce.clear();
-        handCardsWithoutAce.clear();
-    }
+
 
     /**
      * You cannot add zero or negative amount
-     * @param amount
+     * @param amount cash amount
      */
     public void addCash(int amount){
         if(amount<=0)
@@ -294,15 +230,106 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     }
 
     /**
-     * if this player cannot pay the required amount this method return false
-     * @param amount
-     * @return
+     * if this player cannot pay the required amount
+     * this method return false
+     * @param amount cash amount
+     * @return the result of the transaction
      */
     public boolean reduceCash(int amount)
     {
         setCashHeld(getCashHeld()-amount);
-        if(getCashHeld()<amount)
+        if(getCashHeld()<amount) {
+            setCashHeld(0);
             return false;
+        }
         return true;
     }
+
+    /**
+     * receive a card from board
+     * @param card the parameters from board
+     */
+    public void receiveHandCard(TE_Card card){
+        hand.getCard(card);
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+    public int getCurrHandCardValue(){
+        return hand.getCardVal();
+    }
+
+    public void revealAllHandCards(){
+        getHand().exposeHandCards();
+    }
+
+    private class Hand{
+
+        private List<TE_Card> handCardsWithoutAce;
+
+        private List<TE_Card> handCardsWithAce;
+
+        public Hand() {
+            initCardLists();
+        }
+
+        public void getCard(TE_Card card){
+            if(card.getCardType().equals(TE_CardEnum.ACE))
+            {
+                handCardsWithAce.add(card);
+            }else
+            {
+                handCardsWithoutAce.add(card);
+            }
+        }
+        public void initCardLists(){
+            handCardsWithAce=new ArrayList<TE_Card>();
+            handCardsWithoutAce=new ArrayList<TE_Card>();
+        }
+
+        /**
+         * clear handcard LISTS
+         */
+        public void resetHandCard(){
+            handCardsWithAce.clear();
+            handCardsWithoutAce.clear();
+        }
+
+        public void exposeHandCards(){
+            for (TE_Card card : handCardsWithoutAce) {
+                card.reveal();
+            }
+            for (TE_Card card : handCardsWithAce) {
+                card.reveal();
+            }
+        }
+        public int getCurrHandCardCount(){
+            return handCardsWithoutAce.size()+handCardsWithAce.size();
+        }
+
+        public int getCardVal(){
+            int val=0;
+            for(int i=0;i<handCardsWithoutAce.size();i++)
+            {
+                val+= handCardsWithoutAce.get(i).getVal();
+            }
+            for(int i=0;i<handCardsWithAce.size();i++)
+            {
+                val+=handCardsWithAce.get(i).getVal();
+            }
+
+            //remember >31==bust
+            return val;
+        }
+
+        public List<TE_Card> getHandCardsWithoutAce() {
+            return handCardsWithoutAce;
+        }
+
+        public List<TE_Card> getHandCardsWithAce() {
+            return handCardsWithAce;
+        }
+}
+
 }

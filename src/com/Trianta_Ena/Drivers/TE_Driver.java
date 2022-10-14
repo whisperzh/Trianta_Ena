@@ -85,14 +85,28 @@ public class TE_Driver extends Driver{
             }
 
             //dealer's turn
-            getCurrDealer().revealAllCards();
-            boolean dealerhit=getCurrDealer().hit();
-            while (dealerhit)
+            getCurrDealer().revealAllHandCards();
+
+            while (getCurrDealer().getCurrHandCardValue()<27)
             {
-                dealerhit=getCurrDealer().hit();
+                board.deal2Player(getCurrDealer(),false);
+                getCurrDealer().requestForAceValue();
+                getCurrDealer().bustCheckOut();
+            }
+            if(getCurrDealer().isActiveInRound()) {
+                do {
+                    boolean dealerHit = getCurrDealer().hit();
+                    if(dealerHit&&getCurrDealer().isActiveInRound()) {
+                        board.deal2Player(getCurrDealer(), false);
+                        getCurrDealer().requestForAceValue();
+                        getCurrDealer().bustCheckOut();
+                    }
+                    else
+                        break;
+                } while (getCurrDealer().isActiveInRound());
             }
             //dealer does chained hit
-            checkOut();
+            checkOut();//related with money
             if(judge())//whether the game is over
             {
                 printScoreTable();
@@ -147,21 +161,12 @@ public class TE_Driver extends Driver{
         }
     }
 
+    /**
+     * whether the game is over
+     * @return
+     */
     @Override
     public boolean judge() {
-        for(int i=0;i<getUnitsQueue().size();i++) {
-            TE_Player p=(TE_Player)getUnitsQueue().get(i);
-            int val=p.getCurrHandCardValue();
-            if (val>31)
-            {
-                if(gameOutSeat==null)
-                    gameOutSeat=new ArrayList<TE_Player>();
-                gameOutSeat.add(p);
-            }else
-            {
-                //do win
-            }
-        }
         return getUnitsQueue().size()==1;
         //NEED TO BE FILLED
     }
