@@ -37,7 +37,7 @@ public class GameSelect {
         }else if(GameMode==3)
         {
             gameDriver=new TE_Driver();
-            gameDriver.play();
+            // gameDriver.play();
         }
     }
     public Scanner getScanner(){
@@ -47,6 +47,7 @@ public class GameSelect {
     }
 
     public void start() {
+        gameDriver.play();
         //write something like driver.Play();
     }
 }

@@ -24,7 +24,6 @@ public class TE_Driver extends Driver{
         System.out.println("Your input is "+getPlayerCount());
         initBoard();
         initGame();
-
     }
 
     public void rotateDealer(){
