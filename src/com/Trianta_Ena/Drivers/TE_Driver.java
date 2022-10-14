@@ -15,6 +15,8 @@ public class TE_Driver extends Driver{
 
     private final int normalPlayerStartCash=100;
 
+    private Map<Integer,Integer> playersBetAmount;
+
     private PriorityQueue<TE_Player> pq_Score;
 
     public TE_Driver() {
@@ -53,7 +55,7 @@ public class TE_Driver extends Driver{
                 setCurr_Player(p);
                 board.deal2Player(p,!p.getIsDealer());
                 p.setActiveInRound(true);
-                p.bet();//do bet
+                receivePlayerBetAmount(p);//do bet
                 if(p.isActiveInRound()&&!p.getIsDealer())
                 {
                     board.deal2Player(p,true);
@@ -71,6 +73,8 @@ public class TE_Driver extends Driver{
                         // if the player chooses to hit, then board will deal a card and check for a bust
                         if(p.hit()) {
                             board.deal2Player(p,false); // deal a card
+                            p.requestForAceValue();
+                            //before you bust you may check the val to avoid that
                             p.bustCheckOut(); // check for bust
                         } 
                     }
@@ -80,7 +84,12 @@ public class TE_Driver extends Driver{
 
             //dealer's turn
             getCurrDealer().revealAllCards();
-            getCurrDealer().hit();//dealer does chained hit
+            boolean dealerhit=getCurrDealer().hit();
+            while (dealerhit)
+            {
+                dealerhit=getCurrDealer().hit();
+            }
+            //dealer does chained hit
             checkOut();
             if(judge())//whether the game is over
             {
@@ -168,6 +177,11 @@ public class TE_Driver extends Driver{
         pq_Score=new PriorityQueue<TE_Player>((a,b)->b.getCurrHandCardValue()-a.getCurrHandCardValue());
         gameOutSeat=new ArrayList<TE_Player>();
         addUnits(getPlayerCount()-1);
+        playersBetAmount=new HashMap<Integer,Integer>();
+    }
+
+    public void receivePlayerBetAmount(TE_Player p){
+        playersBetAmount.put(p.getInitId(),p.bet());
     }
 
     public int getActivePlayerCount(){

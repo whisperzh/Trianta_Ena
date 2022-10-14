@@ -9,6 +9,7 @@ public class Units {
     private boolean isWinner;
     private int winTimes;
     private Scanner scanner;
+
     protected final int initId;
 
     public Units() {
@@ -47,4 +48,11 @@ public class Units {
     public void setWinTimes(int winTimes) {
         this.winTimes = winTimes;
     }
+
+
+    public int getInitId() {
+        return initId;
+    }
+
 }
+

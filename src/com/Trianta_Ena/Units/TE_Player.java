@@ -43,7 +43,8 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     }
 
     @Override
-    public void roundCheckout() {
+    public void roundCheckout() {// have to sum up the money that the player may get,
+        //because the money is prepaid to the game
 
     }
     //check whether a player is bust
@@ -78,7 +79,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     /**
      *
      */
-    public void bet() {
+    public int bet() {
         //bet or fold
         while(true) {
             System.out.println("bet or fold");
@@ -94,7 +95,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
                     int betAmount = getScanner().nextInt();
                     setCashHeld(cashHeld-betAmount);
                     System.out.println("Your remaining cash: " + Integer.toString(cashHeld));
-                    break;
+                    return betAmount;
                 }
                 catch(Exception e) {
                     System.out.println("Enter an INTEGER amount (Not a fraction amount)");
@@ -110,6 +111,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
                 System.out.println("Available options are 'b' for bet and 'f' for fold.\n");
             }
         }
+        return 0;
     }
 
     @Override
@@ -183,10 +185,15 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     public int requestForAceValue()//need try catch block
     {
-        System.out.println("You got an ACE card");
-        System.out.println("This card's value can either be 11 or 1");
-        System.out.println("Please enter the value of this card(11/1)");
-        int val=getScanner().nextInt();
+        int val=11;
+        if(handCardsWithAce.size()==1)
+        {
+            System.out.println("You got an ACE card");
+            System.out.println("This card's value can either be 11 or 1");
+            System.out.println("Please enter the value of this card(11/1)");
+            val=getScanner().nextInt();
+            handCardsWithAce.get(0).setVal(val);
+        }
         return val;
     }
 
@@ -197,7 +204,6 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public void setCashHeld(int cashHeld) {
         this.cashHeld = cashHeld;
     }
-
 
     public boolean isActiveInRound() {
         return isActiveInRound;
