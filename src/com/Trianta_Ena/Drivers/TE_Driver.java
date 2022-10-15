@@ -36,7 +36,7 @@ public class TE_Driver extends Driver{
             TE_Player p= pq_Score.poll();
             if(p.getIsDealer())
                 return;
-            if(p.acceptSwitch2Dealer()){
+            if(p.acceptSwitch2Dealer()&&p.getCurrHandCardValue()<=31){
                 p.becomeDealer(currDealer);
                 currDealer=p;
                 return;
