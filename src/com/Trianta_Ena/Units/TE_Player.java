@@ -66,6 +66,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         if(handCardValue > 31){
             System.out.println("\n"+getName()+" have gone bust!\n");
             setActiveInRound(false);
+            hand.resetHandCard();//********************
         }
     }
 

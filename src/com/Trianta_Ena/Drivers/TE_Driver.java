@@ -45,11 +45,21 @@ public class TE_Driver extends Driver{
     }
 
 
+    public void playerRoundWinReset()
+    {
+        for(int i=0;i<getUnitsQueue().size();i++) {
+            TE_Player p = (TE_Player) getUnitsQueue().get(i);
+            p.setRoundWin(false);
+        }
+    }
+
     @Override
     public void play() {
         initPlayersCash();
         while(true)//rounds
         {
+            playerRoundWinReset();
+            resetPlayersBetAmount();
             increaseRounds();
             //bet or fold
             TE_Board board=(TE_Board)getBoard();
@@ -266,6 +276,10 @@ public class TE_Driver extends Driver{
             pq_Score.add(p);
         }
 
+    }
+
+    public void resetPlayersBetAmount(){
+        playersBetAmount.clear();
     }
 
     @Override
