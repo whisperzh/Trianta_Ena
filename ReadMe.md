@@ -26,24 +26,20 @@
 ### Items package
 1. `Item.java` -> The parent class for pieces, cards, markers used by players in any game type.
 2. `Card.java` -> Child of the `Item` class. The class entails the attributes and methods corresponding to a card in a standard 52-card deck. The class can be inherited to add functionality based on the game in which the cards are used.
-3. Piece.java -> Not needed, as it was renamed to `Item`.
-4. TE_Card.java -> Child of the `Card` class.  The class contains TE specific card information.
+3. `TE_Card.java` -> Child of the `Card` class.  The class contains TE specific card information.
 
 ### Units package
-1. Units.java -> The class represents a player, one of the building blocks in any game. A unit will be a team in a team-based game, it will be a player in an individual player-based game.
-2. Teams.java -> Child of the `Units` class. Represents a team of players in any game.
-3. Player.java -> Child of the `Units` class. Represents an individual player in any game.
-4. TE_Player.java -> Child of the `Player` class. The class contains all the attributes and methods that correspond to a player or the banker in a TE game.
+1. `Units.java` -> The class represents a player, one of the building blocks in any game. A unit will be a team in a team-based game, it will be a player in an individual player-based game.
+2. `Teams.java` -> Child of the `Units` class. Represents a team of players in any game.
+3. `Player.java` -> Child of the `Units` class. Represents an individual player in any game.
+4. `TE_Player.java` -> Child of the `Player` class. The class contains all the attributes and methods that correspond to a player or the banker in a TE game.
 
 ### Utilities package
 1. `Cache.java` -> This is a general purpose utility class to store player and game-state information.
 
 ## Notes
 ---------------------------------------------------------------------------
-1. Bonus done
-* Unfortunately, I could not finish implementing player teams in this submission, but I have created the infrastructure for quick scaling using the `Player` class. Teams taking turns to play is easily scalable with the `getNextPlayer()` method in the `BoardGame.java` absract class (with some minor edits to the data types).
-* Implemented a friendlier board design by numbering the board cells with integers. Please refer to the example output.
-2. Notes to grader -> NIL
+1. Notes to grader -> NIL
 
 ## How to compile and run
 ---------------------------------------------------------------------------
