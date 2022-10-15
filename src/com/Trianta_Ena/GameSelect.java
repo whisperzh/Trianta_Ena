@@ -50,7 +50,8 @@ public class GameSelect {
     }
 
     public void start() {
-        gameDriver.play();
+        if(gameDriver!=null)
+            gameDriver.play();
         //write something like driver.Play();
     }
 }

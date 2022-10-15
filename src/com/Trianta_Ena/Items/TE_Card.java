@@ -62,7 +62,6 @@ public class TE_Card extends Card{
     }
 
     public void setVal(int val) {
-        if(getCardType().equals(TE_CardEnum.ACE))
-            this.val = val;
+        this.val = val;
     }
 }

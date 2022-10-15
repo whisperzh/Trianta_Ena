@@ -29,9 +29,10 @@ public class TE_Driver extends Driver{
     }
 
     public void rotateDealer(){
-        initScorePq();
-        while(pq_Score.size()!=0)
+
+        while(true)
         {
+            initScorePq();
             TE_Player p= pq_Score.poll();
             if(p.getIsDealer())
                 return;
@@ -57,6 +58,8 @@ public class TE_Driver extends Driver{
                 setCurr_Player(p);
                 board.deal2Player(p,!p.getIsDealer());
                 p.setActiveInRound(true);
+                if(p.getIsDealer())
+                    continue;
                 receivePlayerBetAmount(p);//do bet
                 if(p.isActiveInRound()&&!p.getIsDealer())
                 {
@@ -65,13 +68,13 @@ public class TE_Driver extends Driver{
                 }
                 setCurr_Player(null);
             }
-
+            getCurrDealer().setActiveInRound(false);
             //hit or stand
             while(getActivePlayerCount()!=0){
                 for(int i=0;i<getUnitsQueue().size();i++){
                     TE_Player p=(TE_Player)getUnitsQueue().get(i);
                     setCurr_Player(p);
-                    if(p.isActiveInRound()) {
+                    if(p.isActiveInRound()&&!p.getIsDealer()) {
                         // if the player chooses to hit, then board will deal a card and check for a bust
                         if(p.hit()) {
                             board.deal2Player(p,false); // deal a card
@@ -86,13 +89,15 @@ public class TE_Driver extends Driver{
 
             //dealer's turn
             getCurrDealer().revealAllHandCards();
-
+            getCurrDealer().setActiveInRound(true);
             while (getCurrDealer().getCurrHandCardValue()<27)
             {
+                getCurrDealer().printHandCards();
                 board.deal2Player(getCurrDealer(),false);
                 getCurrDealer().requestForAceValue();
                 getCurrDealer().bustCheckOut();
             }
+
             if(getCurrDealer().isActiveInRound()) {
                 do {
                     boolean dealerHit = getCurrDealer().hit();
@@ -105,8 +110,10 @@ public class TE_Driver extends Driver{
                         break;
                 } while (getCurrDealer().isActiveInRound());
             }
-            //dealer does chained hit
+            //dealer's turn over
+
             checkOut();//related with money
+            board.initCardsPile();
             if(judge())//whether the game is over
             {
                 printScoreTable();
@@ -124,7 +131,15 @@ public class TE_Driver extends Driver{
                     break;
                 }
             }else
-                rotateDealer();
+                do{
+                    rotateDealer();
+                }
+                while (!getCurrDealer().isAlive());
+
+            for(int i=0;i<getUnitsQueue().size();i++) {
+                TE_Player p=(TE_Player)getUnitsQueue().get(i);
+                p.dropAllCards();
+            }
         }
         //if while breaks, the game is over
         System.out.println("Thank you for playing!");
@@ -149,15 +164,45 @@ public class TE_Driver extends Driver{
         //NEED TO BE FILLED
         int winnerCardValThreshold=getCurrDealer().getCurrHandCardValue();
         int roundNormalPlayerWinnerCount=0;
-        for(int i=0;i<getUnitsQueue().size();i++) {
-            TE_Player p = (TE_Player) getUnitsQueue().get(i);
-            if (!p.getIsDealer()) {
-                p.roundCheckout(winnerCardValThreshold);
-                if(p.isRoundWin())
-                {
-                    roundNormalPlayerWinnerCount++;
+        if(getCurrDealer().isAlive()){
+            for(int i=0;i<getUnitsQueue().size();i++) {
+                TE_Player p = (TE_Player) getUnitsQueue().get(i);
+                if (!p.getIsDealer()) {
+                    p.roundCheckout(winnerCardValThreshold);
+                    if(p.isRoundWin())
+                    {
+                        System.out.println(""+p.getName()+" win this round\n");
+                        roundNormalPlayerWinnerCount++;
+                    }
                 }
             }
+            if(roundNormalPlayerWinnerCount==0)
+                getCurrDealer().setRoundWin(true);
+        }else
+        {
+            for(int i=0;i<getUnitsQueue().size();i++) {
+                TE_Player p = (TE_Player) getUnitsQueue().get(i);
+                if (!p.getIsDealer()&&p.isAlive()) {
+                    p.setRoundWin(true);
+                    System.out.println(""+p.getName()+" win this round\n");
+                    roundNormalPlayerWinnerCount++;
+
+                }
+            }
+        }
+
+        for(int i=0;i<getUnitsQueue().size();i++)
+        {
+            TE_Player p = (TE_Player) getUnitsQueue().get(i);
+            if(p.isAlive()&&p.isRoundWin())
+                assignBetWinReward(p);
+        }
+        if(!getCurrDealer().isAlive())
+        {
+            if(getUnitsQueue().contains(getCurrDealer()))
+                getUnitsQueue().remove(getCurrDealer());
+            if(!gameOutSeat.contains(getCurrDealer()))
+                gameOutSeat.add(getCurrDealer());
         }
     }
 
@@ -242,4 +287,41 @@ public class TE_Driver extends Driver{
         }
     }
 
+    /**
+     * assigning reward and at the same time update the dealer's money
+     * @param p
+     */
+    public void assignBetWinReward(TE_Player p)
+    {
+
+        if(p.getIsDealer())
+        {//dealer wins
+
+            for(int amount : playersBetAmount.values())
+                p.addCash(amount);
+            for(int i=0;i<getUnitsQueue().size();i++)
+            {
+                TE_Player player=(TE_Player) getUnitsQueue().get(i);
+                if(!player.isAlive())
+                {
+                    getUnitsQueue().remove(i);
+                    gameOutSeat.add(player);
+                }
+            }
+        }
+        else//not a dealer
+        {
+            int amount=playersBetAmount.get(p.getInitId());
+            p.addCash(2*amount);
+            boolean transactionSucceed=getCurrDealer().reduceCash(amount);
+            if(!transactionSucceed&&!gameOutSeat.contains(getCurrDealer()))
+            {
+                getUnitsQueue().remove(getCurr_Player());//need to find a new dealer after the process
+                gameOutSeat.add(getCurrDealer());
+            }
+
+        }
+        System.out.println(p.getName()+"\'s remaining cash: "+p.getCashHeld());
+
+    }
 }

@@ -45,10 +45,16 @@ public class TE_Player extends Player implements TE_Player_Behavior {
         //because the money is prepaid to the game
 
     }
+
+    /**
+     * update win status and add score
+     * @param threshold
+     */
     public void roundCheckout(int threshold){
-        if(hand.getCardVal()>threshold)
+        if(hand.getCardVal()>threshold&&hand.getCardVal()<=31)
         {
             setRoundWin(true);
+            setWinTimes(getWinTimes()+1);
         }
     }
 
@@ -58,7 +64,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public void bustCheckOut(){ // Returns TRUE if the player is bust. Otherwise returns FALSE
         int handCardValue = hand.getCardVal();
         if(handCardValue > 31){
-            System.out.println("\nYou have gone bust!\n");
+            System.out.println("\n"+getName()+" have gone bust!\n");
             setActiveInRound(false);
         }
     }
@@ -70,8 +76,10 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     @Override
     public boolean hit() {//hit or stand
         while(true) {
+            printHandCards();
             System.out.println("hit or stand");
-            System.out.println("Would you like to [h]it or [s]tand? \nEnter your choice 'h' or 's':");
+            System.out.println(getName()+", would you like to [h]it or [s]tand? \nEnter your choice 'h' or 's':");
+
             String hitOrStand = getScanner().next();
 
             if(hitOrStand.equals("h")) {
@@ -92,9 +100,10 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      */
     public int bet() {
         //bet or fold
+
         while(true) {
             System.out.println("bet or fold");
-            System.out.println("Would you like to [b]et or [f]old? \nEnter your choice 'b' or 'f':");
+            System.out.println(getName()+", would you like to [b]et or [f]old? \nEnter your choice 'b' or 'f':");
             String betOrFold = getScanner().next();
 
 
@@ -105,7 +114,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
                 try {
                     int betAmount = getScanner().nextInt();
                     setCashHeld(cashHeld-betAmount);
-                    System.out.println("Your remaining cash: " + Integer.toString(cashHeld));
+                    System.out.println(getName()+"\'s remaining cash: " + Integer.toString(cashHeld));
                     return betAmount;
                 }
                 catch(Exception e) {
@@ -131,7 +140,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      */
     @Override
     public boolean acceptSwitch2Dealer() {
-        System.out.println("Accept to be a dealer?(y/n)");
+        System.out.println(getName()+", do you accept to be a dealer?(y/n)");
         String acc=getScanner().next();
         if(acc.equalsIgnoreCase("y")||acc.equalsIgnoreCase("yes"))
         {
@@ -177,10 +186,11 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public int requestForAceValue()//need try catch block
     {
         int val=11;
-        if(hand.getHandCardsWithAce().size()==1)
+//        printHandCards();
+        if(hand.getHandCardsWithAce().size()>=1)
         {
-            System.out.println("You got an ACE card");
-            System.out.println("This card's value can either be 11 or 1");
+            System.out.println(getName()+"\'s got " + hand.getHandCardsWithAce().size()+" ACE card");
+            System.out.println("One of the card's value can either be 11 or 1");
             System.out.println("Please enter the value of this card(11/1)");
             val=getScanner().nextInt();
             hand.getHandCardsWithAce().get(0).setVal(val);
@@ -250,6 +260,7 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      * @param card the parameters from board
      */
     public void receiveHandCard(TE_Card card){
+        System.out.println(card.getCardType().toString()+" has been add to "+getName()+"\'s hand card\n");
         hand.getCard(card);
     }
 
@@ -262,6 +273,25 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
     public void revealAllHandCards(){
         getHand().exposeHandCards();
+    }
+
+    @Override
+    public boolean isAlive() {
+        return getCashHeld()>0;
+    }
+
+    public void printHandCards(){
+        List<TE_Card> t=getHand().getAllCards();
+        System.out.println(getName()+"\'s hand card value is "+hand.getCardVal());
+        System.out.println(getName()+" have:");
+        for(TE_Card c : t)
+        {
+            System.out.println(c.getCardType().toString());
+        }
+    }
+
+    public void dropAllCards(){
+        hand.resetHandCard();
     }
 
     private class Hand{
@@ -329,6 +359,19 @@ public class TE_Player extends Player implements TE_Player_Behavior {
 
         public List<TE_Card> getHandCardsWithAce() {
             return handCardsWithAce;
+        }
+
+        public List<TE_Card> getAllCards(){
+            List<TE_Card> ans=new ArrayList<TE_Card>();
+            for(int i=0;i<handCardsWithoutAce.size();i++)
+            {
+                ans.add(handCardsWithoutAce.get(i));
+            }
+            for(int i=0;i<handCardsWithAce.size();i++)
+            {
+                ans.add(handCardsWithAce.get(i));
+            }
+            return ans;
         }
 }
 

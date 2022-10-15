@@ -21,4 +21,8 @@ public class Player extends Units{
         System.out.println("Your input "+name);
         setName(name);
     }
+
+    public boolean isAlive(){
+        return false;
+    }
 }
