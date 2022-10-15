@@ -6,7 +6,7 @@ import com.Trianta_Ena.Items.TE_Card;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@SuppressWarnings("unchecked")
 public class TE_Player extends Player implements TE_Player_Behavior {
 
     private boolean isDealer;//

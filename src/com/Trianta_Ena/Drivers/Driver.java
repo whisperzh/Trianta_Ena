@@ -5,7 +5,7 @@ import com.Trianta_Ena.Units.Player;
 
 import java.util.List;
 import java.util.Scanner;
-
+@SuppressWarnings("unchecked")
 public class Driver {
     private Scanner scanner;
 

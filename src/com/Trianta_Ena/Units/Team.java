@@ -6,6 +6,7 @@ import java.util.Queue;
 /**
  *
  */
+@SuppressWarnings("unchecked")
 public class Team extends Units{
     private Queue playerQueue;
     private char teamPieceType;

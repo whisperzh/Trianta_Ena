@@ -4,7 +4,7 @@ import com.Trianta_Ena.Boards.TE_Board;
 import com.Trianta_Ena.Units.TE_Player;
 
 import java.util.*;
-
+@SuppressWarnings("unchecked")
 public class TE_Driver extends Driver{
 
     private List<TE_Player> gameOutSeat;

@@ -45,7 +45,7 @@
 ---------------------------------------------------------------------------
 1. Navigate to the directory `tic-tac-toe` after unzipping the files
 2. Run the following instructions:
->`javac -d bin src/**/*.java` \
+>`javac -d bin com\Trianta_Ena\Main.java` \
 >`java -cp bin Default.Driver`
 
 ## Input/Output Example
