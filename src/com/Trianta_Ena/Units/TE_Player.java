@@ -6,6 +6,11 @@ import com.Trianta_Ena.Items.TE_Card;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Child of the Player class. The class contains all the attributes and methods that correspond to a player or the banker in a TE game.
+ * This class has a private Hand class which is used to track the hand cards of the player and the banker.
+ */
 @SuppressWarnings("unchecked")
 public class TE_Player extends Player implements TE_Player_Behavior {
 

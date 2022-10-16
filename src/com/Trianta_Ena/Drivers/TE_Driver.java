@@ -4,6 +4,10 @@ import com.Trianta_Ena.Boards.TE_Board;
 import com.Trianta_Ena.Units.TE_Player;
 
 import java.util.*;
+
+/**
+ * Inherits the Driver class. Additional TE specific attributes and methods have been implemented in this class.
+ */
 @SuppressWarnings("unchecked")
 public class TE_Driver extends Driver{
 

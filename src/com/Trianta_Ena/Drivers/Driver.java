@@ -5,6 +5,10 @@ import com.Trianta_Ena.Units.Player;
 
 import java.util.List;
 import java.util.Scanner;
+
+/**
+ * The class contains the infrastructure to build a driver for any game. The class is the parent class for the following TE_Driver class.
+ */
 @SuppressWarnings("unchecked")
 public class Driver {
     private Scanner scanner;

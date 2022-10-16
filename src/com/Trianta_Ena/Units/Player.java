@@ -3,6 +3,10 @@ package com.Trianta_Ena.Units;
 import com.Trianta_Ena.Utilities.Cache;
 
 import java.util.Scanner;
+
+/**
+ * Child of the Units class. Represents an individual player in any game.
+ */
 @SuppressWarnings("unchecked")
 public class Player extends Units{
     public Player(){

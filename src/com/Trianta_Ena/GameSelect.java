@@ -6,7 +6,7 @@ import com.Trianta_Ena.Drivers.TE_Driver;
 import java.util.Scanner;
 
 /**
- * The class allows the player to 
+ * The class is responsible for displaying the menu of available games and present rules for the selected game.
  */
 
 public class GameSelect {

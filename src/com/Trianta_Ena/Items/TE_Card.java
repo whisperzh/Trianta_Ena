@@ -2,6 +2,9 @@ package com.Trianta_Ena.Items;
 
 import com.Trianta_Ena.Enums.TE_CardEnum;
 
+/**
+ * Child of the Card class. The class contains TE specific card information.
+ */
 public class TE_Card extends Card{
     private TE_CardEnum cardType;
 

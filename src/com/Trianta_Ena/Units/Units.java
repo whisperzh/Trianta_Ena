@@ -3,6 +3,11 @@ package com.Trianta_Ena.Units;
 import com.Trianta_Ena.Utilities.Cache;
 
 import java.util.Scanner;
+
+/**
+ * The class represents a player, one of the building blocks in any game.
+ * A unit will be a team in a team-based game, it will be a player in an individual player-based game.
+ */
 @SuppressWarnings("unchecked")
 public class Units {
     private String name;

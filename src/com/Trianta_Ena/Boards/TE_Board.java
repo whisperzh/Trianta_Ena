@@ -6,6 +6,9 @@ import com.Trianta_Ena.Units.TE_Player;
 
 import java.util.*;
 
+/**
+ * Inherits the Board class. Additional TE specific attributes and methods have been implemented in this class.
+ */
 public class TE_Board extends Board {
     private List<TE_Card> cards;
 
