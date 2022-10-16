@@ -2,8 +2,6 @@ package com.Trianta_Ena.Items;
 
 import com.Trianta_Ena.Enums.TE_CardEnum;
 
-import javax.swing.*;
-
 public class TE_Card extends Card{
     private TE_CardEnum cardType;
 

@@ -32,7 +32,7 @@
 1. `Units.java` -> The class represents a player, one of the building blocks in any game. A unit will be a team in a team-based game, it will be a player in an individual player-based game.
 2. `Teams.java` -> Child of the `Units` class. Represents a team of players in any game.
 3. `Player.java` -> Child of the `Units` class. Represents an individual player in any game.
-4. `TE_Player.java` -> Child of the `Player` class. The class contains all the attributes and methods that correspond to a player or the banker in a TE game.
+4. `TE_Player.java` -> Child of the `Player` class. The class contains all the attributes and methods that correspond to a player or the banker in a TE game. This class has a private `Hand` class which is used to track the hand cards of the player and the banker. 
 
 ### Utilities package
 1. `Cache.java` -> This is a general purpose utility class to store player and game-state information.
@@ -43,10 +43,10 @@
 
 ## How to compile and run
 ---------------------------------------------------------------------------
-1. Navigate to the directory `tic-tac-toe` after unzipping the files
+1. Navigate to the directory `src` after unzipping the files
 2. Run the following instructions:
 >`javac -d bin com\Trianta_Ena\Main.java` \
->`java -cp bin Default.Driver`
+>`java -cp bin com.Trianta_Ena.Main`
 
 ## Input/Output Example
 ---------------------------------------------------------------------------
