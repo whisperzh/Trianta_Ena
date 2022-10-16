@@ -20,10 +20,21 @@ public class TE_Driver extends Driver{
     private PriorityQueue<TE_Player> pq_Score;
 
     public TE_Driver() {
-        System.out.println("Please enter the count of the players");
-        System.out.println("Please enter a number between 5 and 9");
-        setPlayerCount(getScanner().nextInt());
-        System.out.println("Your input is "+getPlayerCount());
+        System.out.println("Please enter the count of the players: \n");
+        System.out.println("=== Please enter a number between 2 and 9 \n");
+        int temp = 0;
+        while(true){
+            temp = getScanner().nextInt();
+            if(temp < 2 || temp > 9){
+                System.out.println("xxx Invalid input. Please enter an INTEGER between 2 and 9\n\n");
+            }
+            else{
+                setPlayerCount(temp);
+                break;
+            }
+        }
+        
+        System.out.println("Your input is "+getPlayerCount()+"\n");
         initBoard();
         initGame();
     }
@@ -128,16 +139,16 @@ public class TE_Driver extends Driver{
             {
                 printScoreTable();
                 //user input
-                System.out.println("Do you want to play again?(y/n)");
+                System.out.println("=== Do you want to play again?(y/n) \n");
                 String result=getScanner().next();
                 if(result.equalsIgnoreCase("y")||result.equalsIgnoreCase("yes"))
                 {
-                    System.out.println("Input: yes");
+                    System.out.println("Input: yes\n");
                     //only reset part of the game,since the players want to continue;
                     //Team.getBoard().reset();
                 }else
                 {
-                    System.out.println("Input: no");
+                    System.out.println("Input: no\n");
                     break;
                 }
             }else
@@ -152,11 +163,13 @@ public class TE_Driver extends Driver{
             }
         }
         //if while breaks, the game is over
-        System.out.println("Thank you for playing!");
+        System.out.println("====================================\n");
+        System.out.println(">>>=== Thank you for playing! ===<<< ");
+        System.out.println("====================================\n");
 
         for(int i=0;i<getUnitsQueue().size();i++) {
             TE_Player p=(TE_Player)getUnitsQueue().get(i);
-            System.out.println(p.getName() + " won " + p.getWinTimes() + " times.");
+            System.out.println(p.getName() + " won " + p.getWinTimes() + " times.\n");
         }
 
     }
@@ -181,7 +194,7 @@ public class TE_Driver extends Driver{
                     p.roundCheckout(winnerCardValThreshold);
                     if(p.isRoundWin())
                     {
-                        System.out.println(""+p.getName()+" win this round\n");
+                        System.out.println("=== "+p.getName()+" win this round ===\n");
                         roundNormalPlayerWinnerCount++;
                     }
                 }
@@ -194,7 +207,7 @@ public class TE_Driver extends Driver{
                 TE_Player p = (TE_Player) getUnitsQueue().get(i);
                 if (!p.getIsDealer()&&p.isAlive()) {
                     p.setRoundWin(true);
-                    System.out.println(""+p.getName()+" win this round\n");
+                    System.out.println("=== "+p.getName()+" win this round ===\n");
                     roundNormalPlayerWinnerCount++;
 
                 }
@@ -261,10 +274,6 @@ public class TE_Driver extends Driver{
     @Override
     public void printScoreTable(){
         System.out.println("Team name\tScore\tRound");
-//        for(Team t : teamQueue)
-//        {
-//            System.out.println(t.getName()+"\t"+t.getScore()+"\t"+rounds);
-//        }
     }
 
     public void initScorePq(){
@@ -309,7 +318,7 @@ public class TE_Driver extends Driver{
     {
 
         if(p.getIsDealer())
-        {//dealer wins
+        {   //dealer wins
 
             for(int amount : playersBetAmount.values())
                 p.addCash(amount);
@@ -335,7 +344,7 @@ public class TE_Driver extends Driver{
             }
 
         }
-        System.out.println(p.getName()+"\'s remaining cash: "+p.getCashHeld());
+        System.out.println(p.getName()+"\'s remaining cash: "+p.getCashHeld()+"\n");
 
     }
 }
