@@ -64,9 +64,11 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public void bustCheckOut(){ // Returns TRUE if the player is bust. Otherwise returns FALSE
         int handCardValue = hand.getCardVal();
         if(handCardValue > 31){
+            System.out.println("*********************************");
             System.out.println("\n"+getName()+" have gone bust!\n");
+            System.out.println("*********************************");
             setActiveInRound(false);
-            hand.resetHandCard();//********************
+            hand.resetHandCard();
         }
     }
 
@@ -77,8 +79,6 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     @Override
     public boolean hit() {//hit or stand
         while(true) {
-            printHandCards();
-            System.out.println("hit or stand");
             System.out.println(getName()+", would you like to [h]it or [s]tand? \nEnter your choice 'h' or 's':");
 
             String hitOrStand = getScanner().next();
@@ -250,9 +250,9 @@ public class TE_Player extends Player implements TE_Player_Behavior {
      * @param card the parameters from board
      */
     public void receiveHandCard(TE_Card card){
-        System.out.println(card.getCardType().toString()+" has been added to "+getName()+"\'s hand card\n");
+        System.out.println("\n"+card.getCardType().toString()+" has been added to "+getName()+"\'s hand card\n");
         hand.getCard(card);
-        // printHandCards();
+        printHandCards();
     }
 
     public Hand getHand() {
@@ -274,11 +274,13 @@ public class TE_Player extends Player implements TE_Player_Behavior {
     public void printHandCards(){
         List<TE_Card> t=getHand().getAllCards();
         System.out.println(getName()+"\'s hand card value is "+hand.getCardVal());
-        System.out.println(getName()+" have:");
+        System.out.println("\n"+getName()+"'s hand cards are:");
         for(TE_Card c : t)
         {
             System.out.println(c.getCardType().toString());
         }
+        System.out.println("--------");
+        System.out.println();
     }
 
     public void dropAllCards(){

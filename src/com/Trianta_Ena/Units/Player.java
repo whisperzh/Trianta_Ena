@@ -16,9 +16,9 @@ public class Player extends Units{
 
     public void setNameFromConsole(){
         Scanner s=getScanner();
-        System.out.println("Please enter a player name");
+        System.out.println("\n=== Please enter your name");
         String name=s.next();
-        System.out.println("Your input "+name);
+        System.out.println("Your input "+name+"\n");
         setName(name);
     }
 

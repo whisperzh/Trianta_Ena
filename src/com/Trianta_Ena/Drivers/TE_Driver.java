@@ -113,7 +113,7 @@ public class TE_Driver extends Driver{
             getCurrDealer().setActiveInRound(true);
             while (getCurrDealer().getCurrHandCardValue()<27)
             {
-                getCurrDealer().printHandCards();
+                // getCurrDealer().printHandCards();
                 board.deal2Player(getCurrDealer(),false);
                 getCurrDealer().requestForAceValue();
                 getCurrDealer().bustCheckOut();
